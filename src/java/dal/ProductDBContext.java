@@ -310,12 +310,53 @@ public class ProductDBContext extends DBContext {
 //        } catch (Exception e) {
 //        }
 //    }
+    public int getTotalProductsByCategory(int categoryId) {
+        try {
+            String sql = "SELECT COUNT(id) FROM Product WHERE cateID = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, categoryId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CategoryDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public List<Product> getProductsByCategoryAndPage(int categoryId, int page, int PAGE_SIZE) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Product WHERE cateID = ? ORDER BY id OFFSET (? - 1) * ? ROWS FETCH NEXT ? ROWS ONLY";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, categoryId);
+            stm.setInt(2, page);
+            stm.setInt(3, PAGE_SIZE);
+            stm.setInt(4, PAGE_SIZE);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getInt(1));
+                product.setName(rs.getString(2));
+                product.setImageUrl(rs.getString(3));
+                product.setPrice(rs.getDouble(4));
+                product.setTiltle(rs.getString(5));
+                product.setDescription(rs.getString(6));
+                product.setCategoryId(rs.getInt(7));
+                product.setSell_ID(rs.getInt(8));
+                list.add(product);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CategoryDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
-        ProductDBContext a = new ProductDBContext();
-        List<Product> list = a.getAllProducts();
-        for (Product product : list) {
-            System.out.println(product.getName());
-        }
+        ProductDBContext bContext = new ProductDBContext();
+
+        int a = bContext.getTotalProducts();
+        System.out.println(a);
     }
 }

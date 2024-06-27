@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- Navigation-->
@@ -13,18 +12,34 @@
         window.location.href = "changepassword.jsp";
     }
 </script>
+<style>
+    .navbar-nav .nav-item {
+        margin-right: 20px;
+    }
+    .navbar-nav .nav-link {
+        padding: 10px 15px;
+        white-space: nowrap;
+    }
+    .input-group {
+        max-width: 300px;
+    }
+    .btn-icon {
+        display: flex;
+        align-items: center;
+    }
+    .btn-icon i {
+        margin-right: 5px;
+    }
+    .navbar-brand img {
+        height: 90px; /* Adjust the height as needed */
+    }
+</style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="home">Book Haven</a>
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            >
+        <a class="navbar-brand" href="home">
+            <img src="https://cdn.discordapp.com/attachments/930693723510165534/1255912384300843141/file-PnwqBwZk1SqmovKoPwRj6Lng.png?ex=667edb0e&is=667d898e&hm=f598fe7dba2987dfe8df101b7ccab0eefd8a14b0963455eb4ca1c8d64c01cb58&" alt="Book Haven">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -36,9 +51,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="managerCategory">Manager Category</a>
                     </li>
-
-                </c:if>
-                <c:if test="${sessionScope.role_admin != null}">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="manager">Manager Product</a>
                     </li>
@@ -48,40 +60,38 @@
                         <a class="nav-link active" aria-current="page" href="#!">Hello ${sessionScope.acc.user}</a>
                     </li>
                 </c:if>
-
-
             </ul>
-            <form action="search" class="d-flex mx-auto" >
-
-                <div class="group">
-                    <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                    <g>
-                    <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
-                    </g>
-                    </svg>
-                    <input placeholder="Search" value="${key}" type="search" placeholder="Search"aria-label="Search"name="keyword" class="input">
+            <form action="search" class="d-flex mx-auto">
+                <div class="input-group">
+                    <input placeholder="Search" value="${key}" type="search" name="keyword" class="form-control" aria-label="Search">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </div>
-
-                <button style="margin-left: 15px" class="button-search1" type="submit">
-                    Search
-                </button>
             </form>
-            <div class="d-flex my-2">
-                <a class="btn btn-outline-dark" href="carts">
-                    <i class="bi-cart-fill me-1"></i>
+            <div class="d-flex my-2 ms-lg-3">
+                <a class="btn btn-outline-dark btn-icon me-2" href="carts">
+                    <i class="bi-cart-fill"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill"><%--${sessionScope.totalQuantity}--%></span>
                 </a>
+                <c:choose>
+                    <c:when test="${sessionScope.acc == null}">
+                        <button class="btn btn-outline-primary ms-lg-2 btn-icon" onclick="login()">
+                            <i class="bi-box-arrow-in-right"></i>
+                            Login
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn btn-outline-primary ms-lg-2 btn-icon" onclick="changePassword()">
+                            <i class="bi-key-fill"></i>
+                            Change Password
+                        </button>
+                        <button class="btn btn-outline-primary ms-lg-2 btn-icon" onclick="logout()">
+                            <i class="bi-box-arrow-right"></i>
+                            Logout
+                        </button>
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <c:choose>
-                <c:when test="${sessionScope.acc == null}">
-                    <button class="btn btn-outline-primary ms-lg-2" onclick="login()">Login</button>
-                </c:when>
-                <c:otherwise>
-                    <button class="btn btn-outline-primary ms-lg-2" onclick="changePassword()">Change Password</button>
-                    <button class="btn btn-outline-primary ms-lg-2" onclick="logout()">Logout</button>
-                </c:otherwise>
-            </c:choose>
         </div>
     </div>
 </nav>

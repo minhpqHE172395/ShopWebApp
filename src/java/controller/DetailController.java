@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Product;
 
-
 public class DetailController extends HttpServlet {
 
     /**
@@ -31,19 +30,13 @@ public class DetailController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-              if (request.getSession().getAttribute("acc") != null) {
-                  int productId = Integer.parseInt(request.getParameter("productId"));
-                  request.getSession().setAttribute("urlHistory", "detail?productId=" + productId);
-                  ProductDBContext pdb = new ProductDBContext();
-                  Product product = pdb.getProductById(productId);
-                  List<Product> listLast = pdb.getAllProductsLast();
-                  request.setAttribute("product", product);
-                  request.setAttribute("listLast", listLast);
-                  request.getRequestDispatcher("detail.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
-           
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            ProductDBContext pdb = new ProductDBContext();
+            Product product = pdb.getProductById(productId);
+            List<Product> listLast = pdb.getAllProductsLast();
+            request.setAttribute("product", product);
+            request.setAttribute("listLast", listLast);
+            request.getRequestDispatcher("detail.jsp").forward(request, response);
         }
     }
 
@@ -87,6 +80,3 @@ public class DetailController extends HttpServlet {
     }// </editor-fold>
 
 }
-
-
-

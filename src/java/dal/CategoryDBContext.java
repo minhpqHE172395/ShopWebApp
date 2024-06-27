@@ -120,4 +120,12 @@ public class CategoryDBContext extends DBContext { //thao tác với bảng cate
         }
     }
 
+    public int getTotalCategories() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public List<Category> getCategoriesByPage(int categoryPage, int CATEGORY_PAGE_SIZE) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

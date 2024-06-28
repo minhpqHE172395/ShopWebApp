@@ -21,6 +21,9 @@ public class SearchController extends HttpServlet {
         final int PAGE_SIZE = 6;
 
         String keyword = request.getParameter("keyword");
+        if (keyword == null || keyword.trim().isEmpty()) {
+            keyword = "";
+        }
 
         String pageStr = request.getParameter("page");
         int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
@@ -37,7 +40,7 @@ public class SearchController extends HttpServlet {
             page = totalPages;
         }
 
-        int start = (page - 1) * PAGE_SIZE;
+        int start = Math.max((page - 1) * PAGE_SIZE, 0);
         int end = Math.min(page * PAGE_SIZE, totalProducts);
         List<Product> paginatedProducts = listProducts.subList(start, end);
 
@@ -47,6 +50,10 @@ public class SearchController extends HttpServlet {
         request.setAttribute("keyword", keyword);
         request.setAttribute("page", page);
         request.setAttribute("totalPages", totalPages);
+
+        if (totalProducts == 0) {
+            request.setAttribute("message", "No products found for your search query.");
+        }
 
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
